@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const fetch = require("node-fetch");
-
 require("dotenv").config();
 
 const app = express();
@@ -15,7 +14,7 @@ app.get("/", (req, res) => {
 
 // Ruta de chat con OpenAI
 app.post("/chat", async (req, res) => {
-  const userMessage = req.body?.message || "";
+  const userMessage = req.body && req.body.message ? req.body.message : "";
 
   if (!userMessage) {
     return res.json({ reply: "Necesito un mensaje para responder." });
@@ -51,8 +50,9 @@ app.post("/chat", async (req, res) => {
     const data = await response.json();
 
     const reply =
-      data?.choices?.[0]?.message?.content ||
-      "Hubo un error procesando tu mensaje.";
+      data && data.choices && data.choices[0] && data.choices[0].message
+        ? data.choices[0].message.content
+        : "Hubo un error procesando tu mensaje.";
 
     res.json({ reply });
   } catch (error) {
