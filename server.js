@@ -10,20 +10,17 @@ app.get("/", (req, res) => {
   res.send("OrbyonX backend running");
 });
 
-// Ruta de chat sencilla (eco)
+// Ruta de chat simple
 app.post("/chat", (req, res) => {
-  const message = (req.body && req.body.message) || "";
-  console.log("Mensaje recibido desde Shopify:", message);
+  const message = req.body && req.body.message ? req.body.message : "";
 
   res.json({
-    reply: message
-      ? Recibí tu mensaje: "${message}"
-      : "No recibí ningún mensaje, intenta de nuevo."
+    reply: "Recibi tu mensaje: " + message
   });
 });
 
-// Render asigna el puerto en PORT
+// Puerto asignado por Render
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+  console.log("Server running on port " + PORT);
 });
