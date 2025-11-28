@@ -17,12 +17,12 @@ app.post("/chat", async (req, res) => {
     req.body && req.body.message ? req.body.message : "";
 
   if (!userMessage) {
-    return res.json({ reply: "Necesito un mensaje para responder." });
+    return res.json({ reply: "I need a message to respond." });
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    return res.json({ reply: "Falta la API Key de OpenAI en el servidor." });
+    return res.json({ reply: "Missing OpenAI API Key on server." });
   }
 
   try {
@@ -37,8 +37,7 @@ app.post("/chat", async (req, res) => {
         messages: [
           {
             role: "system",
-            content:
-              "Eres el asistente oficial de OrbyonX. Responde breve, directo y profesional sobre IA, automatización, OrbyonX y Web3."
+            content: "Hi, I am Orby, and I'm here to help you!"
           },
           {
             role: "user",
@@ -50,7 +49,7 @@ app.post("/chat", async (req, res) => {
 
     const data = await response.json();
 
-    let reply = "Hubo un error procesando tu mensaje.";
+    let reply = "There was an error processing your message.";
     if (
       data &&
       data.choices &&
@@ -63,8 +62,8 @@ app.post("/chat", async (req, res) => {
 
     res.json({ reply });
   } catch (error) {
-    console.error("Error en OpenAI:", error);
-    res.json({ reply: "Error al conectar con la IA." });
+    console.error("Error in OpenAI:", error);
+    res.json({ reply: "Error connecting to AI." });
   }
 });
 
